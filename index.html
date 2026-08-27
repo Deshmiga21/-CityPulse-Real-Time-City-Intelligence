@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CityPulse real-time city intelligence dashboard using live public data.">
+<title>CityPulse — Real-Time City Intelligence</title>
+<link rel="preconnect" href="https://unpkg.com">
+<link rel="preconnect" href="https://tile.openstreetmap.org">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <header class="topbar">
+    <div class="brand"><span class="mark">CP</span><div><b>CityPulse</b><small>REAL-TIME CITY INTELLIGENCE</small></div></div>
+    <div class="top-controls">
+      <span id="lastUpdated">Not connected</span>
+      <button id="refreshBtn">↻ Refresh</button>
+      <button id="themeBtn">☼</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="welcome" class="screen">
+      <div class="welcome-card">
+        <span class="eyebrow">LIVE DATA MODE</span>
+        <h1>Explore a real city.<br><em>See what is happening now.</em></h1>
+        <p>Search for a city and CityPulse loads live weather, air quality and OpenStreetMap infrastructure data. No invented city statistics are displayed.</p>
+        <form id="searchForm" class="search">
+          <input id="cityInput" autocomplete="off" placeholder="Search a city — e.g. Colombo, Sri Lanka" required>
+          <button>Explore city →</button>
+        </form>
+        <div id="searchResults" class="search-results"></div>
+        <div class="data-note"><b>Data policy:</b> Every displayed metric is fetched from a public data provider. If a source does not provide a value, CityPulse shows “Unavailable” rather than making one up.</div>
+      </div>
+    </section>
+
+    <section id="dashboard" class="screen hidden">
+      <div class="city-heading">
+        <div><button id="changeCity" class="back">← Change city</button><span class="eyebrow">LIVE CITY VIEW</span><h1 id="cityName">—</h1><p id="cityMeta">—</p></div>
+        <div class="source-stack"><span class="live"><i></i> LIVE</span><small id="weatherTime">—</small></div>
+      </div>
+
+      <div class="metric-grid">
+        <article class="metric"><span>Temperature</span><strong id="temp">—</strong><small id="feels">Feels like —</small></article>
+        <article class="metric"><span>Conditions</span><strong id="condition">—</strong><small id="wind">Wind —</small></article>
+        <article class="metric"><span>Air quality</span><strong id="aqi">—</strong><small id="pm25">PM2.5 —</small></article>
+        <article class="metric"><span>Humidity</span><strong id="humidity">—</strong><small id="pressure">Pressure —</small></article>
+      </div>
+
+      <div class="grid">
+        <section class="panel map-panel">
+          <div class="panel-title"><div><span class="eyebrow">OPENSTREETMAP</span><h2>Actual city map</h2></div><span id="osmStamp">—</span></div>
+          <div id="map"></div>
+          <div class="map-foot"><span>● Live map data from OpenStreetMap</span><span id="featureCount">—</span></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-title"><div><span class="eyebrow">CURRENT CONDITIONS</span><h2>Weather</h2></div></div>
+          <div id="weatherDetails" class="detail-list"></div>
+          <div class="provider">Source: <a href="https://open-meteo.com/" target="_blank" rel="noreferrer">Open-Meteo</a></div>
+        </section>
+      </div>
+
+      <div class="grid lower">
+        <section class="panel">
+          <div class="panel-title"><div><span class="eyebrow">AIR QUALITY</span><h2>Atmospheric conditions</h2></div><span id="aqTime">—</span></div>
+          <div id="airDetails" class="air-grid"></div>
+          <div class="provider">Source: <a href="https://open-meteo.com/en/docs/air-quality-api" target="_blank" rel="noreferrer">Open-Meteo Air Quality</a></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-title"><div><span class="eyebrow">CITY FEATURES</span><h2>Mapped infrastructure</h2></div><button id="reloadFeatures" class="small-btn">Reload</button></div>
+          <div id="featureDetails" class="feature-grid"></div>
+          <div class="provider">Source: <a href="https://www.openstreetmap.org/" target="_blank" rel="noreferrer">OpenStreetMap</a> via Overpass API</div>
+        </section>
+      </div>
+
+      <div class="data-footer">
+        <div><b>Data integrity</b><span>CityPulse does not estimate or simulate values in LIVE mode.</span></div>
+        <div><b>Refresh</b><span>Use Refresh to request the latest available provider data.</span></div>
+        <div><b>Availability</b><span>Provider timestamps are shown where supplied. Map data may lag its source by a few minutes.</span></div>
+      </div>
+    </section>
+  </main>
+</div>
+<div id="toast"></div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
